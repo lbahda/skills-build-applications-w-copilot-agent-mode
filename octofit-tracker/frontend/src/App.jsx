@@ -1,122 +1,181 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import { Activity as ActivityIcon, Dumbbell, LogOut, Trophy, Users, UserRound } from 'lucide-react'
+import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
+import { apiRequest } from './api.js'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import UsersView from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
+import './octofit.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const TOKEN_KEY = 'octofit-token'
+
+const navigation = [
+  { to: '/activities', label: 'Activities', icon: ActivityIcon },
+  { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },
+  { to: '/teams', label: 'Teams', icon: Users },
+  { to: '/users', label: 'Athletes', icon: UserRound },
+  { to: '/workouts', label: 'Workouts', icon: Dumbbell },
+]
+
+function SignIn({ onSignIn }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    setSubmitting(true)
+    setError('')
+    try {
+      await onSignIn({ email, password })
+    } catch (requestError) {
+      setError(requestError.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <main className="signin-page">
+      <section className="signin-brand" aria-label="OctoFit Tracker">
+        <img src="/octofitapp-small.png" alt="OctoFit Tracker" />
+        <span className="eyebrow">MERGINGTON HIGH · FITNESS CLUB</span>
+        <h1>Make room<br />to move.</h1>
+        <p>Every session adds up.</p>
       </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      <section className="signin-panel">
+        <div className="signin-heading">
+          <span className="eyebrow">YOUR TRAINING SPACE</span>
+          <h2>Welcome back</h2>
+          <p>Sign in to your OctoFit account.</p>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
+        <form className="signin-form" onSubmit={handleSubmit}>
+          <label className="form-label" htmlFor="signin-email">Email</label>
+          <input
+            autoComplete="email"
+            className="form-control"
+            id="signin-email"
+            onChange={(event) => setEmail(event.target.value)}
+            required
+            type="email"
+            value={email}
+          />
+          <label className="form-label" htmlFor="signin-password">Password</label>
+          <input
+            autoComplete="current-password"
+            className="form-control"
+            id="signin-password"
+            onChange={(event) => setPassword(event.target.value)}
+            required
+            type="password"
+            value={password}
+          />
+          {error && <p className="form-error" role="alert">{error}</p>}
+          <button className="btn btn-primary signin-submit" disabled={submitting} type="submit">
+            {submitting ? 'Signing in…' : 'Sign in'}
+          </button>
+        </form>
       </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    </main>
   )
 }
 
-export default App
+function AppShell({ profile, token, onSignOut }) {
+  return (
+    <div className="app-shell">
+      <header className="topbar">
+        <NavLink aria-label="OctoFit home" className="brand" to="/activities">
+          <img alt="" className="brand-logo" src="/octofitapp-small.png" />
+          <span>octofit<span className="brand-dot">.</span></span>
+        </NavLink>
+        <nav aria-label="Main navigation" className="main-nav">
+          {navigation.map(({ to, label, icon: Icon }) => (
+            <NavLink className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} key={to} to={to}>
+              <Icon aria-hidden="true" size={17} strokeWidth={2.1} />
+              <span>{label}</span>
+            </NavLink>
+          ))}
+        </nav>
+        <div className="account-controls">
+          <span aria-hidden="true" className="avatar avatar-small">
+            {profile?.displayName?.slice(0, 1)?.toUpperCase() || 'O'}
+          </span>
+          <span className="account-name">{profile?.displayName || 'Athlete'}</span>
+          <button aria-label="Sign out" className="icon-button signout-button" onClick={onSignOut} title="Sign out" type="button">
+            <LogOut aria-hidden="true" size={17} />
+          </button>
+        </div>
+      </header>
+      <main className="main-content">
+        <Routes>
+          <Route element={<Navigate replace to="/activities" />} path="/" />
+          <Route element={<Activities token={token} />} path="/activities" />
+          <Route element={<Leaderboard token={token} />} path="/leaderboard" />
+          <Route element={<Teams profile={profile} token={token} />} path="/teams" />
+          <Route element={<UsersView token={token} />} path="/users" />
+          <Route element={<Workouts token={token} />} path="/workouts" />
+          <Route element={<Navigate replace to="/activities" />} path="*" />
+        </Routes>
+      </main>
+      <footer className="app-footer">
+        <span>OCTOFIT TRACKER</span>
+        <span>Move well. Show up.</span>
+      </footer>
+    </div>
+  )
+}
+
+export default function App() {
+  const [token, setToken] = useState(() => window.localStorage.getItem(TOKEN_KEY) || '')
+  const [profile, setProfile] = useState(null)
+  const [checkingSession, setCheckingSession] = useState(() => Boolean(window.localStorage.getItem(TOKEN_KEY)))
+
+  useEffect(() => {
+    if (!token) return undefined
+
+    let current = true
+    apiRequest('/users/me/', { token })
+      .then((user) => {
+        if (current) setProfile(user)
+      })
+      .catch(() => {
+        if (!current) return
+        window.localStorage.removeItem(TOKEN_KEY)
+        setToken('')
+        setProfile(null)
+      })
+      .finally(() => {
+        if (current) setCheckingSession(false)
+      })
+
+    return () => {
+      current = false
+    }
+  }, [token])
+
+  async function handleSignIn(credentials) {
+    const result = await apiRequest('/auth/login/', {
+      method: 'POST',
+      body: credentials,
+    })
+    window.localStorage.setItem(TOKEN_KEY, result.token)
+    setProfile(result.user)
+    setToken(result.token)
+  }
+
+  function handleSignOut() {
+    window.localStorage.removeItem(TOKEN_KEY)
+    setToken('')
+    setProfile(null)
+  }
+
+  if (checkingSession) {
+    return <div aria-live="polite" className="session-loading">Loading your training space…</div>
+  }
+
+  if (!token) return <SignIn onSignIn={handleSignIn} />
+  return <AppShell onSignOut={handleSignOut} profile={profile} token={token} />
+}
