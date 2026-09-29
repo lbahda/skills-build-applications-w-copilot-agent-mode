@@ -5,6 +5,7 @@ import { useCollection } from '../hooks/useCollection.js'
 import { PageHeader, ResourceFeedback } from './ResourceFeedback.jsx'
 
 export default function Teams({ profile, token }) {
+  // API endpoint: https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/teams/
   const { items, loading, error, refresh } = useCollection('/api/teams/', token)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')

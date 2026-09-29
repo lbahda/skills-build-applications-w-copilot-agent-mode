@@ -16,6 +16,7 @@ function WorkoutRows({ items }) {
 }
 
 export default function Workouts({ token }) {
+  // API endpoint: https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts/
   const suggestions = useCollection('/api/workouts/suggestions/', token)
   const library = useCollection('/api/workouts/', token)
 

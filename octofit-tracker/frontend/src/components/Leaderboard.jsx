@@ -7,6 +7,7 @@ function currentMonth() {
 }
 
 export default function Leaderboard({ token }) {
+  // API endpoint: https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/
   const { items, loading, error, refresh, payload } = useCollection('/api/leaderboard/', token)
   const periodLabel = payload?.period || currentMonth()
 

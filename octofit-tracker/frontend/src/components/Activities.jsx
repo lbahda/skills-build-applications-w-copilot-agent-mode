@@ -19,6 +19,7 @@ function formatDate(value) {
 }
 
 export default function Activities({ token }) {
+  // API endpoint: https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/activities/
   const { items, loading, error, refresh } = useCollection('/api/activities/', token)
   const [form, setForm] = useState({ type: 'running', durationMinutes: '', distanceKm: '', notes: '' })
   const [formError, setFormError] = useState('')

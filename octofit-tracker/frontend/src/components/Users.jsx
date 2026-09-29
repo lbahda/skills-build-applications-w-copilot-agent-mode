@@ -4,6 +4,7 @@ import { useCollection } from '../hooks/useCollection.js'
 import { PageHeader, ResourceFeedback } from './ResourceFeedback.jsx'
 
 export default function UsersView({ token }) {
+  // API endpoint: https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/users/
   const { items, loading, error, refresh } = useCollection('/api/users/', token)
   const [query, setQuery] = useState('')
   const filteredUsers = useMemo(() => {
