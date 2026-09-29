@@ -16,8 +16,8 @@ function WorkoutRows({ items }) {
 }
 
 export default function Workouts({ token }) {
-  const suggestions = useCollection('/workouts/suggestions/', token)
-  const library = useCollection('/workouts/', token)
+  const suggestions = useCollection('/api/workouts/suggestions/', token)
+  const library = useCollection('/api/workouts/', token)
 
   return (
     <>

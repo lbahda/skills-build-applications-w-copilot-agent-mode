@@ -7,7 +7,7 @@ function currentMonth() {
 }
 
 export default function Leaderboard({ token }) {
-  const { items, loading, error, refresh, payload } = useCollection('/leaderboard/', token)
+  const { items, loading, error, refresh, payload } = useCollection('/api/leaderboard/', token)
   const periodLabel = payload?.period || currentMonth()
 
   return (

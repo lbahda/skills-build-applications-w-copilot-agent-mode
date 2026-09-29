@@ -4,7 +4,7 @@ import { useCollection } from '../hooks/useCollection.js'
 import { PageHeader, ResourceFeedback } from './ResourceFeedback.jsx'
 
 export default function UsersView({ token }) {
-  const { items, loading, error, refresh } = useCollection('/users/', token)
+  const { items, loading, error, refresh } = useCollection('/api/users/', token)
   const [query, setQuery] = useState('')
   const filteredUsers = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()

@@ -137,7 +137,7 @@ export default function App() {
     if (!token) return undefined
 
     let current = true
-    apiRequest('/users/me/', { token })
+    apiRequest('/api/users/me/', { token })
       .then((user) => {
         if (current) setProfile(user)
       })
@@ -157,7 +157,7 @@ export default function App() {
   }, [token])
 
   async function handleSignIn(credentials) {
-    const result = await apiRequest('/auth/login/', {
+    const result = await apiRequest('/api/auth/login/', {
       method: 'POST',
       body: credentials,
     })

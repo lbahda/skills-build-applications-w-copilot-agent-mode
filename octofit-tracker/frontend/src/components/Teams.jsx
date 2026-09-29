@@ -5,7 +5,7 @@ import { useCollection } from '../hooks/useCollection.js'
 import { PageHeader, ResourceFeedback } from './ResourceFeedback.jsx'
 
 export default function Teams({ profile, token }) {
-  const { items, loading, error, refresh } = useCollection('/teams/', token)
+  const { items, loading, error, refresh } = useCollection('/api/teams/', token)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [formError, setFormError] = useState('')
@@ -16,7 +16,7 @@ export default function Teams({ profile, token }) {
     setBusyTeam('create')
     setFormError('')
     try {
-      await apiRequest('/teams/', { token, method: 'POST', body: { name, description } })
+      await apiRequest('/api/teams/', { token, method: 'POST', body: { name, description } })
       setName('')
       setDescription('')
       refresh()
@@ -31,7 +31,7 @@ export default function Teams({ profile, token }) {
     setBusyTeam(teamId)
     setFormError('')
     try {
-      await apiRequest(`/teams/${teamId}/join/`, { token, method: 'POST' })
+      await apiRequest(`/api/teams/${teamId}/join/`, { token, method: 'POST' })
       refresh()
     } catch (requestError) {
       setFormError(requestError.message)

@@ -19,7 +19,7 @@ function formatDate(value) {
 }
 
 export default function Activities({ token }) {
-  const { items, loading, error, refresh } = useCollection('/activities/', token)
+  const { items, loading, error, refresh } = useCollection('/api/activities/', token)
   const [form, setForm] = useState({ type: 'running', durationMinutes: '', distanceKm: '', notes: '' })
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
@@ -33,7 +33,7 @@ export default function Activities({ token }) {
     setSaving(true)
     setFormError('')
     try {
-      await apiRequest('/activities/', {
+      await apiRequest('/api/activities/', {
         token,
         method: 'POST',
         body: {
