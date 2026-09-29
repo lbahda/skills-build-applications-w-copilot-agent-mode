@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --ink: #1b2a22;
+  --ink-soft: #35463b;
+  --muted: #748178;
+  --green: #246a4b;
+  --green-dark: #164b35;
+  --mint: #dcebdd;
+  --mint-soft: #edf4ec;
+  --coral: #de7958;
+  --canvas: #f5f7f2;
+  --white: #fff;
+  --line: #e1e7de;
+  --body-font: 'DM Sans', 'Trebuchet MS', sans-serif;
+  --display-font: 'Space Grotesk', 'Arial Narrow', sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  color-scheme: light;
+  font-family: var(--body-font);
+  font-synthesis: none;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input,
+select { font: inherit; }
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(222, 121, 88, 0.55);
+  outline-offset: 2px;
+}
+
+#root { min-height: 100vh; width: 100%; }
+
+::selection { background: #cde3c7; color: var(--ink); }
